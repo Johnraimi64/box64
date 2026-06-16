@@ -123,13 +123,6 @@ void setupTraceMapLib(lib_t* maplib);
 // Implementation
 void* my_dlopen(x64emu_t* emu, void *filename, int flag)
 {
-    // --- STRUCTURAL CALL OF COD CODES ENGINE UNALIGNED MEMORY BYPASS ---
-    if (filename != NULL) {
-        char* filename_str = (char*)filename;
-        if (strstr(filename_str, "t6sp.exe") || strstr(filename_str, "t6mp.exe") || strstr(filename_str, "t6zm.exe")) {
-            return (void*)1; 
-        }
-    }
     //void *dlopen(const char *filename, int flag);
     // TODO, handling special values for filename, like RTLD_SELF?
     // TODO, handling flags?
@@ -650,4 +643,4 @@ void finiPendingDLOpenedNoUnload(x64emu_t* emu)
     closeAllDLOpened();
 
 // define all standard library functions
-#include "wrappedlib_init.h"dlib_init.h"
+#include "wrappedlib_init.h"
