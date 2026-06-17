@@ -125,7 +125,7 @@ uint64_t RunFunctionHandler(x64emu_t* emu, int* exit, int dynarec, x64_ucontext_
     }
     va_end (va);
 
-    printf_log(LOG_DEBUG, "%04d|signal #%d function handler %p called, RSP=%p%s\n", GetTID(), R_EDI, (void*)fnc, (void*)R_RSP, dynarec?" with Dynarec":"");
+    printf_log(LOG_DEBUG, "%04d|signal #%d function handler %p called, RSP=%p\n", GetTID(), R_EDI, (void*)fnc, (void*)R_RSP);
 
     int oldquitonlongjmp = emu->flags.quitonlongjmp;
     emu->flags.quitonlongjmp = 2;
@@ -382,6 +382,7 @@ int my_sigactionhandler_oldcode_64(x64emu_t* emu, int32_t sig, int simple, sigin
     x64_ucontext_t   *sigcontext = (x64_ucontext_t*)frame;
     // get general register
     emu2mctx(&sigcontext->uc_mcontext, emu);
+    CLEAR_FLAG(F_TF);   // now clear TF flags inside the signal handler
     // get FloatPoint status
     sigcontext->uc_mcontext.fpregs = xstate;//(struct x64_libc_fpstate*)&sigcontext->xstate;
     fpu_xsave_mask(emu, xstate, 0, 0b111);
@@ -535,8 +536,6 @@ int my_sigactionhandler_oldcode_64(x64emu_t* emu, int32_t sig, int simple, sigin
     GO(R9);
     GO(RBP);
     #undef GO
-    uint64_t old_eflags = emu->eflags.x64;
-    emu->eflags.x64 = 0x202; // default flags for inside the signal handler
     // set stack pointer
     R_RSP = frame;
     // set frame pointer
@@ -546,7 +545,7 @@ int my_sigactionhandler_oldcode_64(x64emu_t* emu, int32_t sig, int simple, sigin
     int ret;
     int dynarec = 0;
     #ifdef DYNAREC
-    if(!(/*sig==X64_SIGSEGV ||*/ (Locks&is_dyndump_locked) || (Locks&is_memprot_locked)))
+    if(!(sig==X64_SIGSEGV || (Locks&is_dyndump_locked) || (Locks&is_memprot_locked)))
         dynarec = BOX64ENV(dynarec_interp_signal)?0:1;
     #endif
     ret = RunFunctionHandler(emu, &exits, dynarec, sigcontext, my_context->signals[info2->si_signo], 3, info2->si_signo, info2, sigcontext);
@@ -563,7 +562,6 @@ int my_sigactionhandler_oldcode_64(x64emu_t* emu, int32_t sig, int simple, sigin
     GO(R9);
     GO(RBP);
     #undef GO
-    emu->eflags.x64 = old_eflags;
 
     if(memcmp(sigcontext, &sigcontext_copy, sizeof(x64_ucontext_t))) {
         #if defined(DYNAREC)
@@ -777,12 +775,6 @@ extern int box64_exit_code;
 
 void my_box64signalhandler(int32_t sig, siginfo_t* info, void * ucntx)
 {
-    // --- PURE SEH ACCESS VIOLATION BYPASS FOR ZONE FAULTS ---
-    if (emu && emu->ip >= 0x00400000 && emu->ip <= 0x00D00000) {
-        emu->regs[_AX].qword = 1; // Force return register state to success/true
-        emu->ip += 2;             // Step instruction pointer forward past the crashing byte
-        return;                   // Terminate the crash signal loop completely
-    }
     sig = signal_to_x64(sig);
     // sig==X64_SIGSEGV || sig==X64_SIGBUS || sig==X64_SIGILL || sig==X64_SIGABRT here!
     int log_minimum = (BOX64ENV(showsegv))?LOG_NONE:((((sig==X64_SIGSEGV) || (sig==X64_SIGILL)) && my_context->is_sigaction[sig])?LOG_DEBUG:LOG_INFO);
