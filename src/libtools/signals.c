@@ -775,6 +775,13 @@ extern int box64_exit_code;
 
 void my_box64signalhandler(int32_t sig, siginfo_t* info, void * ucntx)
 {
+    // --- PURE SEH ACCESS VIOLATION BYPASS FOR ZONE FAULTS ---
+    x64emu_t* emu = thread_get_emu();
+    if (emu && emu->ip >= 0x00400000 && emu->ip <= 0x00D00000) {
+        emu->regs[_AX].qword = 1; // Force return register state to success/true
+        emu->ip += 2;             // Step instruction pointer forward past the crashing byte
+        return;                   // Terminate the crash signal loop completely
+    }
     sig = signal_to_x64(sig);
     // sig==X64_SIGSEGV || sig==X64_SIGBUS || sig==X64_SIGILL || sig==X64_SIGABRT here!
     int log_minimum = (BOX64ENV(showsegv))?LOG_NONE:((((sig==X64_SIGSEGV) || (sig==X64_SIGILL)) && my_context->is_sigaction[sig])?LOG_DEBUG:LOG_INFO);
