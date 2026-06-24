@@ -860,7 +860,6 @@
 #() LFplL
 #() LFpLi
 #() LFpLC
-#() LFpLu
 #() LFpLL
 #() LFpLp
 #() LFppi
@@ -954,9 +953,7 @@
 #() pFpLp
 #() pFppc
 #() pFppi
-#() pFppI
 #() pFppu
-#() pFppU
 #() pFppf
 #() pFppd
 #() pFppl
@@ -1631,9 +1628,7 @@
 #() pFpiiu
 #() pFpiiU
 #() pFpiip
-#() pFpiui
 #() pFpiuu
-#() pFpiuL
 #() pFpiUL
 #() pFpiLi
 #() pFpiLu
@@ -1642,7 +1637,6 @@
 #() pFpipi
 #() pFpipu
 #() pFpipd
-#() pFpipL
 #() pFpipp
 #() pFpCip
 #() pFpCuu
@@ -1681,7 +1675,6 @@
 #() pFppWp
 #() pFppui
 #() pFppuu
-#() pFppuL
 #() pFppup
 #() pFppdd
 #() pFppll
@@ -2262,6 +2255,7 @@
 #() LFppLuu
 #() LFppLLp
 #() LFppLpL
+#() LFppLpp
 #() LFpppii
 #() LFppplL
 #() LFppplp
@@ -2312,7 +2306,6 @@
 #() pFpiipp
 #() pFpiCCC
 #() pFpiuuu
-#() pFpiupL
 #() pFpiupp
 #() pFpiLip
 #() pFpipii
@@ -2332,7 +2325,6 @@
 #() pFpuupp
 #() pFpuLpp
 #() pFpupuu
-#() pFpupuL
 #() pFpuppu
 #() pFpuppp
 #() pFpfffi
@@ -2370,7 +2362,6 @@
 #() pFpppii
 #() pFpppip
 #() pFpppui
-#() pFpppuu
 #() pFpppup
 #() pFpppli
 #() pFpppLi
@@ -2420,7 +2411,6 @@
 #() vFilipli
 #() vFiliplu
 #() vFipiplp
-#() vFipippp
 #() vFCCCCff
 #() vFuiiiii
 #() vFuiiiip
@@ -2635,7 +2625,6 @@
 #() iFpiippp
 #() iFpiIIIi
 #() iFpiCCpu
-#() iFpiuipu
 #() iFpiuuup
 #() iFpiuupp
 #() iFpiupip
@@ -2741,12 +2730,12 @@
 #() iFppLLpp
 #() iFppLpLp
 #() iFppLppp
+#() iFpppiii
 #() iFpppiup
 #() iFpppipi
 #() iFpppipu
 #() iFpppipp
 #() iFpppIIu
-#() iFpppIpp
 #() iFpppuii
 #() iFpppuip
 #() iFpppuuu
@@ -2758,6 +2747,7 @@
 #() iFpppLip
 #() iFpppLpi
 #() iFpppLpp
+#() iFppppii
 #() iFppppiu
 #() iFppppip
 #() iFppppui
@@ -2866,6 +2856,7 @@
 #() LFppLLpL
 #() LFppLpLi
 #() LFppLpLp
+#() LFpppppp
 #() LFSpLiip
 #() pFELpppV
 #() pFELpApp
@@ -2904,8 +2895,6 @@
 #() pFpiiuuu
 #() pFpiipip
 #() pFpiippp
-#() pFpiuipp
-#() pFpiuuup
 #() pFpidddd
 #() pFpiLLLL
 #() pFpipipL
@@ -2913,13 +2902,10 @@
 #() pFpipuii
 #() pFpippip
 #() pFpipppp
-#() pFpuiipp
-#() pFpuiuuu
 #() pFpuuiip
 #() pFpuuuuu
 #() pFpuuuup
 #() pFpuuupu
-#() pFpuupuL
 #() pFpupuui
 #() pFpupuuu
 #() pFpupuup
@@ -2950,15 +2936,12 @@
 #() pFppuupp
 #() pFppuLli
 #() pFppupLi
-#() pFppupLp
 #() pFppuppp
 #() pFpplplp
 #() pFpplppp
 #() pFppLuui
 #() pFppLpuu
 #() pFpppiip
-#() pFpppupu
-#() pFpppupL
 #() pFpppupp
 #() pFpppLii
 #() pFpppLui
@@ -2966,7 +2949,6 @@
 #() pFppppiL
 #() pFpppppi
 #() pFpppppu
-#() pFpppppL
 #() pFpppppp
 #() pFpSiipi
 #() pFSpiiii
@@ -2998,7 +2980,6 @@
 #() vFiupuuup
 #() vFilipliu
 #() vFilulipi
-#() vFippippp
 #() vFCCCCfff
 #() vFuiiiiii
 #() vFuiiiiiC
@@ -3178,7 +3159,6 @@
 #() iFpupuupp
 #() iFpupuLpL
 #() iFpupupui
-#() iFpupupup
 #() iFpuppppp
 #() iFpllpppp
 #() iFpLiiiiL
@@ -3195,6 +3175,7 @@
 #() iFpLppiii
 #() iFpLppiip
 #() iFppiiiii
+#() iFppiiipi
 #() iFppiiLll
 #() iFppiipii
 #() iFppiipiL
@@ -3211,7 +3192,6 @@
 #() iFppuuppp
 #() iFppupupu
 #() iFppupupp
-#() iFppupLip
 #() iFppupppp
 #() iFppUUUUu
 #() iFppliupp
@@ -3293,6 +3273,7 @@
 #() LFpLLppuu
 #() LFpLppuuu
 #() LFppLpLpL
+#() LFppLpLpp
 #() LFppLppLp
 #() pFEpupppp
 #() pFEpLiiiI
@@ -3310,7 +3291,6 @@
 #() pFduuulul
 #() pFpiiiiid
 #() pFpiiippp
-#() pFpiiLppu
 #() pFpiipipp
 #() pFpiiplui
 #() pFpiipppp
@@ -3342,10 +3322,8 @@
 #() pFppuuuuu
 #() pFppuuupu
 #() pFppuuupp
-#() pFppuuppp
 #() pFppuLLip
 #() pFppupuuu
-#() pFppupLip
 #() pFppliuip
 #() pFpplipup
 #() pFppLLiLi
@@ -3487,7 +3465,6 @@
 #() iFpiiiiiiu
 #() iFpiiupppp
 #() iFpiuiiLLL
-#() iFpiuuuppp
 #() iFpipiipip
 #() iFpippiiii
 #() iFpippuuui
@@ -3585,6 +3562,7 @@
 #() LFpLpLppuH
 #() LFppLpLpLi
 #() LFppLppLpu
+#() LFppppppLp
 #() pFEupLLLpp
 #() pFEpiipupp
 #() pFEpiipppp
@@ -4384,6 +4362,8 @@ wrappedcrypto3:
 - vFp:
   - CRYPTO_set_id_callback
   - CRYPTO_set_locking_callback
+- iFp:
+  - EVP_CIPHER_nid
 - pFp:
   - BIO_meth_get_callback_ctrl
   - BIO_meth_get_create
@@ -4786,6 +4766,7 @@ wrappedglib2:
   - g_completion_set_compare
   - g_list_free_full
   - g_main_context_set_poll_func
+  - g_option_group_add_entries
   - g_ptr_array_set_free_func
   - g_ptr_array_sort
   - g_ptr_array_sort_values
@@ -6515,6 +6496,7 @@ wrappedlibssl3:
   - SSL_get_verify_callback
 - vFpp:
   - SSL_CTX_sess_set_new_cb
+  - SSL_CTX_sess_set_remove_cb
   - SSL_CTX_set_client_cert_cb
   - SSL_CTX_set_cookie_generate_cb
   - SSL_CTX_set_cookie_verify_cb
@@ -6544,6 +6526,7 @@ wrappedlibssl3:
   - SSL_CTX_set_cert_cb
   - SSL_CTX_set_cert_verify_callback
   - SSL_CTX_set_next_proto_select_cb
+  - SSL_set_cert_cb
 - lFpip:
   - SSL_CTX_callback_ctrl
   - SSL_callback_ctrl
@@ -6746,6 +6729,7 @@ wrappedlibz:
   - inflateBackInit_
 - iFpiiiiipi:
   - deflateInit2_
+wrappedlz4:
 wrappedlzma:
 - vFp:
   - lzma_end
@@ -6837,11 +6821,6 @@ wrappedpangoft2:
 - pFp:
   - pango_fc_font_lock_face
 wrappedpcap:
-wrappedpipewire03:
-- pFpV:
-  - pw_properties_new
-- iFpppV:
-  - pw_properties_setf
 wrappedpixman1:
 wrappedplc4:
 wrappedplds4:

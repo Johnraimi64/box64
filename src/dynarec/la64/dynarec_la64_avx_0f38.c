@@ -60,7 +60,7 @@ uintptr_t dynarec64_AVX_0F38(dynarec_la64_t* dyn, uintptr_t addr, uintptr_t ip, 
         case 0xF2:
             INST_NAME("ANDN Gd, Vd, Ed");
             nextop = F8;
-            SETFLAGS(X_ALL, SF_SET_NODF, NAT_FLAGS_NOFUSION);
+            SETFLAGS(X_ALL, SF_SET, NAT_FLAGS_NOFUSION);
             GETGD;
             GETED(0);
             GETVD;
@@ -88,7 +88,7 @@ uintptr_t dynarec64_AVX_0F38(dynarec_la64_t* dyn, uintptr_t addr, uintptr_t ip, 
             switch ((nextop >> 3) & 7) {
                 case 1:
                     INST_NAME("BLSR Vd, Ed");
-                    SETFLAGS(X_ALL, SF_SET_NODF, NAT_FLAGS_NOFUSION);
+                    SETFLAGS(X_ALL, SF_SET, NAT_FLAGS_NOFUSION);
                     GETED(0);
                     GETVD;
                     CLEAR_FLAGS(x6);
@@ -110,11 +110,14 @@ uintptr_t dynarec64_AVX_0F38(dynarec_la64_t* dyn, uintptr_t addr, uintptr_t ip, 
                         SLLI_D(x5, x5, F_SF);
                         OR(xFlags, xFlags, x5);
                     }
+                    if (BOX64DRENV(dynarec_safeflags)) {
+                        IFX (X_PF) emit_pf(dyn, ninst, vd, x3, x5);
+                    }
                     SPILL_EFLAGS();
                     break;
                 case 2:
                     INST_NAME("BLSMSK Vd, Ed");
-                    SETFLAGS(X_ALL, SF_SET_NODF, NAT_FLAGS_NOFUSION);
+                    SETFLAGS(X_ALL, SF_SET, NAT_FLAGS_NOFUSION);
                     GETED(0);
                     GETVD;
                     CLEAR_FLAGS(x6);
@@ -132,11 +135,14 @@ uintptr_t dynarec64_AVX_0F38(dynarec_la64_t* dyn, uintptr_t addr, uintptr_t ip, 
                         SLLI_D(x5, x5, F_SF);
                         OR(xFlags, xFlags, x5);
                     }
+                    if (BOX64DRENV(dynarec_safeflags)) {
+                        IFX (X_PF) emit_pf(dyn, ninst, vd, x3, x5);
+                    }
                     SPILL_EFLAGS();
                     break;
                 case 3:
                     INST_NAME("BLSI Vd, Ed");
-                    SETFLAGS(X_ALL, SF_SET_NODF, NAT_FLAGS_NOFUSION);
+                    SETFLAGS(X_ALL, SF_SET, NAT_FLAGS_NOFUSION);
                     GETED(0);
                     GETVD;
                     CLEAR_FLAGS(x6);
@@ -158,6 +164,9 @@ uintptr_t dynarec64_AVX_0F38(dynarec_la64_t* dyn, uintptr_t addr, uintptr_t ip, 
                         SLLI_D(x5, x5, F_SF);
                         OR(xFlags, xFlags, x5);
                     }
+                    if (BOX64DRENV(dynarec_safeflags)) {
+                        IFX (X_PF) emit_pf(dyn, ninst, vd, x3, x5);
+                    }
                     SPILL_EFLAGS();
                     break;
                 default:
@@ -168,7 +177,7 @@ uintptr_t dynarec64_AVX_0F38(dynarec_la64_t* dyn, uintptr_t addr, uintptr_t ip, 
         case 0xF5:
             INST_NAME("BZHI Gd, Ed, Vd");
             nextop = F8;
-            SETFLAGS(X_ALL, SF_SET_NODF, NAT_FLAGS_NOFUSION);
+            SETFLAGS(X_ALL, SF_SET, NAT_FLAGS_NOFUSION);
             GETGD;
             GETED(0);
             GETVD;
@@ -204,7 +213,7 @@ uintptr_t dynarec64_AVX_0F38(dynarec_la64_t* dyn, uintptr_t addr, uintptr_t ip, 
         case 0xF7:
             INST_NAME("BEXTR Gd, Ed, Vd");
             nextop = F8;
-            SETFLAGS(X_ALL, SF_SET_NODF, NAT_FLAGS_NOFUSION);
+            SETFLAGS(X_ALL, SF_SET, NAT_FLAGS_NOFUSION);
             GETGD;
             GETED(0);
             GETVD;
