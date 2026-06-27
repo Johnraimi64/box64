@@ -789,15 +789,13 @@ void my_box64signalhandler(int32_t sig, siginfo_t* info, void * ucntx)
     x64emu_t* emu = thread_get_emu();
     int tid = GetTID();
     // Stark Mode Override for Black Ops 2 Memory Faults
-    if(sig == X64_SIGSEGV && box64_t6sp_workaround) {
-        static int retry_count = 0;
-        if (retry_count < 10 && addr != NULL) {
-            retry_count++;
-            // Purge JIT/Dynarec compiled block structures 
-            // forces re-translation of obfuscated or self-modified code
-            extern void clean_dynablocks(void); // Declaring locally to ensure CI workflow passes
-            clean_dynablocks(); 
-            return; // Intercept signal, stop the crash, and attempt to resume execution
+    if(sig == X64_SIGSEGV && box64_t6sp_workaround && addr != NULL) {
+        // Find the page start boundary (align to 4KB page)
+        uintptr_t page_start = (uintptr_t)addr & ~(uintptr_t)0xFFF;
+        // Force the page to allow full Read, Write, and Execution privileges
+        #include <sys/mman.h>
+        if (mprotect((void*)page_start, 4096, PROT_READ | PROT_WRITE | PROT_EXEC) == 0) {
+            return; // Successfully unlocked the memory page! Resume execution instantly.
         }
     }
 #ifdef __aarch64__
