@@ -772,6 +772,7 @@ static pthread_mutex_t mutex_dynarec_prot = PTHREAD_ERRORCHECK_MUTEX_INITIALIZER
 
 extern int box64_quit;
 extern int box64_exit_code;
+extern int box64_t6sp_workaround; // Our Stark Mode flag grouped cleanly
 
 void my_box64signalhandler(int32_t sig, siginfo_t* info, void * ucntx)
 {
@@ -787,6 +788,18 @@ void my_box64signalhandler(int32_t sig, siginfo_t* info, void * ucntx)
     void* rsp = NULL;
     x64emu_t* emu = thread_get_emu();
     int tid = GetTID();
+    // Stark Mode Override for Black Ops 2 Memory Faults
+    if(sig == X64_SIGSEGV && box64_t6sp_workaround) {
+        static int retry_count = 0;
+        if (retry_count < 10 && addr != NULL) {
+            retry_count++;
+            // Purge JIT/Dynarec compiled block structures 
+            // forces re-translation of obfuscated or self-modified code
+            extern void clean_dynablocks(void); // Declaring locally to ensure CI workflow passes
+            clean_dynablocks(); 
+            return; // Intercept signal, stop the crash, and attempt to resume execution
+        }
+    }
 #ifdef __aarch64__
     void * pc = (void*)p->uc_mcontext.pc;
     struct fpsimd_context *fpsimd = NULL;
@@ -798,7 +811,7 @@ void my_box64signalhandler(int32_t sig, siginfo_t* info, void * ucntx)
                 fpsimd = (struct fpsimd_context*)ff;
             else
                 ff = (struct _aarch64_ctx*)((uintptr_t)ff + ff->size);
-        }
+        }        
     }
 #elif defined __x86_64__
     void * pc = (void*)p->uc_mcontext.gregs[X64_RIP];
