@@ -772,7 +772,6 @@ static pthread_mutex_t mutex_dynarec_prot = PTHREAD_ERRORCHECK_MUTEX_INITIALIZER
 
 extern int box64_quit;
 extern int box64_exit_code;
-extern int box64_t6sp_workaround; // Our Stark Mode flag grouped cleanly
 
 void my_box64signalhandler(int32_t sig, siginfo_t* info, void * ucntx)
 {
@@ -788,16 +787,6 @@ void my_box64signalhandler(int32_t sig, siginfo_t* info, void * ucntx)
     void* rsp = NULL;
     x64emu_t* emu = thread_get_emu();
     int tid = GetTID();
-    // Stark Mode Override for Black Ops 2 Memory Faults
-    if(sig == X64_SIGSEGV && box64_t6sp_workaround && addr != NULL) {
-        // Find the page start boundary (align to 4KB page)
-        uintptr_t page_start = (uintptr_t)addr & ~(uintptr_t)0xFFF;
-        // Force the page to allow full Read, Write, and Execution privileges
-        #include <sys/mman.h>
-        if (mprotect((void*)page_start, 4096, PROT_READ | PROT_WRITE | PROT_EXEC) == 0) {
-            return; // Successfully unlocked the memory page! Resume execution instantly.
-        }
-    }
 #ifdef __aarch64__
     void * pc = (void*)p->uc_mcontext.pc;
     struct fpsimd_context *fpsimd = NULL;
@@ -809,7 +798,7 @@ void my_box64signalhandler(int32_t sig, siginfo_t* info, void * ucntx)
                 fpsimd = (struct fpsimd_context*)ff;
             else
                 ff = (struct _aarch64_ctx*)((uintptr_t)ff + ff->size);
-        }        
+        }
     }
 #elif defined __x86_64__
     void * pc = (void*)p->uc_mcontext.gregs[X64_RIP];
