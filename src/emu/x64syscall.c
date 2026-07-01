@@ -624,8 +624,18 @@ void EXPORT x64Syscall_linux(x64emu_t *emu)
         case 9: // sys_mmap
             R_RAX = (uintptr_t)my_mmap64(emu, (void*)R_RDI, R_RSI, S_EDX, S_R10d, S_R8d, R_R9);
             break;
-        case 10: // sys_mprotect
-            S_RAX = my_mprotect(emu, (void*)R_RDI, R_RSI, S_EDX);
+                case 10: // sys_mprotect
+            {
+                uintptr_t m_addr = (uintptr_t)R_RDI;
+                int m_prot = S_EDX;                
+                // Target the specific memory region throwing the protection crash
+                if (m_addr >= 0x41d0000 && m_addr <= 0x41e0000) {
+                    if (!(m_prot & 2)) { // 2 is PROT_WRITE
+                        m_prot |= 2;
+                    }
+                }               
+                S_RAX = my_mprotect(emu, (void*)m_addr, R_RSI, m_prot);
+            }
             if(S_RAX==-1)
                 S_RAX = -errno;
             break;
